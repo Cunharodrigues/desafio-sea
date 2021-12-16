@@ -2,37 +2,53 @@ package com.projeto.desafiosea.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tb_trabalhador")
 public class Trabalhador implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String name;
-	private boolean cpf;
+	
+	@Column(unique = true)
+	private String cpf;
 	private String sexo;
-	private String setor;
-	private String cargo;
-	private Role role;
+	
+	@ManyToOne
+	@JoinColumn(name = "cargo_id")
+	private Cargo cargo;
+	
 	
 	public Trabalhador() {
 		
 	}
 
-	public Trabalhador(String id, String name, boolean cpf, String sexo, String setor, String cargo, Role role) {
-		super();
+	public Trabalhador(Long id, String name, String cpf, String sexo, Cargo cargo) {
+		
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.sexo = sexo;
-		this.setor = setor;
 		this.cargo = cargo;
-		this.role = role;
+		
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -44,11 +60,11 @@ public class Trabalhador implements Serializable{
 		this.name = name;
 	}
 
-	public boolean isCpf() {
+	public String isCpf() {
 		return cpf;
 	}
 
-	public void setCpf(boolean cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 
@@ -60,30 +76,14 @@ public class Trabalhador implements Serializable{
 		this.sexo = sexo;
 	}
 
-	public String getSetor() {
-		return setor;
-	}
-
-	public void setSetor(String setor) {
-		this.setor = setor;
-	}
-
-	public String getCargo() {
+	public Cargo getCargo() {
 		return cargo;
 	}
 
-	public void setCargo(String cargo) {
+	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -1,41 +1,46 @@
-package com.projeto.desafiosea.entities;
+package com.projeto.desafiosea.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import com.projeto.desafiosea.entities.Cargo;
+import com.projeto.desafiosea.entities.Setor;
 
-@Entity
-@Table(name = "tb_setor")
-public class Setor implements Serializable{
+
+public class SetorDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(unique = true)
 	private String name;
 	
-	@OneToMany(mappedBy = "setor")
+	//@OneToMany(mappedBy = "setor")
 	private List<Cargo> cargos = new ArrayList<>();
 	
-	public Setor() {
+	public SetorDTO() {
 		
 	}
 
-	public Setor(Long id, String name) {
+	public SetorDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
+	public SetorDTO(Setor entity) {
+		id = entity.getId();
+		name = entity.getName();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public SetorDTO(Setor entity, List<Cargo> cargos) {
+		this(entity);
+		for(Cargo c : cargos) {
+			this.cargos.addAll((Collection<? extends Cargo>) new CargoDTO(c));
+		}
+		
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -56,6 +61,10 @@ public class Setor implements Serializable{
 		return cargos;
 	}
 
+	public void setCargos(List<Cargo> cargos) {
+		this.cargos = cargos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,11 +83,12 @@ public class Setor implements Serializable{
 			return false;
 		Setor other = (Setor) obj;
 		if (id == null) {
-			if (other.id != null)
+			if (other.getId() != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.getId()))
 			return false;
 		return true;
 	}
+	
 	
 }
