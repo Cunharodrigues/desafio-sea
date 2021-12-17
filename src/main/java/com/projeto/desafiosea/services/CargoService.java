@@ -17,6 +17,7 @@ import com.projeto.desafiosea.entities.Cargo;
 import com.projeto.desafiosea.entities.Setor;
 import com.projeto.desafiosea.repositories.CargoRepository;
 import com.projeto.desafiosea.repositories.SetorRepository;
+import com.projeto.desafiosea.services.exceptions.DataBaseException;
 import com.projeto.desafiosea.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -30,7 +31,7 @@ public class CargoService {
 	
 	@Transactional(readOnly = true)
 	public List<CargoDTO> findAll() {
-		List<Cargo> list = repository.finAll();
+		List<Cargo> list = repository.findAll();
 		return list.stream().map(x -> new CargoDTO(x)).collect(Collectors.toList());
 	}
 	

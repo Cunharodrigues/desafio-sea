@@ -1,6 +1,8 @@
 package com.projeto.desafiosea.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -13,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.projeto.desafiosea.dto.SetorDTO;
 import com.projeto.desafiosea.entities.Setor;
 import com.projeto.desafiosea.repositories.SetorRepository;
-import com.projeto.desafiosea.services.exceptions.DatabaseException;
+import com.projeto.desafiosea.services.exceptions.DataBaseException;
 import com.projeto.desafiosea.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -21,6 +23,12 @@ public class SetorService {
 
 	@Autowired
 	private SetorRepository repository;
+	
+	@Transactional(readOnly = true)
+	public List<SetorDTO> findAll() {
+		List<Setor> list = repository.findAll();
+		return list.stream().map(x -> new SetorDTO(x)).collect(Collectors.toList());
+	}
 
 	@Transactional(readOnly = true)
 	public SetorDTO findById(Long id) {
@@ -64,7 +72,7 @@ public class SetorService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Integrity violation");
+			throw new DataBaseException("Integrity violation");
 		}
 	}
 

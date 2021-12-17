@@ -17,6 +17,7 @@ import com.projeto.desafiosea.entities.Cargo;
 import com.projeto.desafiosea.entities.Trabalhador;
 import com.projeto.desafiosea.repositories.CargoRepository;
 import com.projeto.desafiosea.repositories.TrabalhadorRepository;
+import com.projeto.desafiosea.services.exceptions.DataBaseException;
 import com.projeto.desafiosea.services.exceptions.ResourceNotFoundException;
 
 @Service
