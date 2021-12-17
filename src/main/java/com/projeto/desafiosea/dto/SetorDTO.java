@@ -2,7 +2,6 @@ package com.projeto.desafiosea.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.projeto.desafiosea.entities.Cargo;
@@ -15,11 +14,9 @@ public class SetorDTO implements Serializable{
 	private Long id;
 	private String name;
 	
-	//@OneToMany(mappedBy = "setor")
-	private List<Cargo> cargos = new ArrayList<>();
+	private List<CargoDTO> cargos = new ArrayList<>();
 	
 	public SetorDTO() {
-		
 	}
 
 	public SetorDTO(Long id, String name) {
@@ -32,11 +29,10 @@ public class SetorDTO implements Serializable{
 		name = entity.getName();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public SetorDTO(Setor entity, List<Cargo> cargos) {
 		this(entity);
 		for(Cargo c : cargos) {
-			this.cargos.addAll((Collection<? extends Cargo>) new CargoDTO(c));
+			this.cargos.add(new CargoDTO(c));
 		}
 		
 	}
@@ -57,12 +53,8 @@ public class SetorDTO implements Serializable{
 		this.name = name;
 	}
 
-	public List<Cargo> getCargos() {
+	public List<CargoDTO> getCargos() {
 		return cargos;
-	}
-
-	public void setCargos(List<Cargo> cargos) {
-		this.cargos = cargos;
 	}
 
 	@Override

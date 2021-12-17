@@ -3,7 +3,6 @@ package com.projeto.desafiosea.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ public class Cargo implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	private String name;
 	
 	@ManyToOne
@@ -29,13 +28,13 @@ public class Cargo implements Serializable{
 	private Setor setor;
 	
 	@OneToMany(mappedBy = "cargo")
-	private List<Trabalhador> trabalhador = new ArrayList<>();
+	private List<Trabalhador> trabalhadores = new ArrayList<>();
 	
 	public Cargo() {
 		
 	}
 
-	public Cargo(long id, String name, Setor setor) {
+	public Cargo(Long id, String name, Setor setor) {
 		this.id = id;
 		this.name = name;
 		this.setor = setor;
@@ -45,7 +44,7 @@ public class Cargo implements Serializable{
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -65,13 +64,16 @@ public class Cargo implements Serializable{
 		this.setor = setor;
 	}
 	
-	public List<Trabalhador> getTrabalhador() {
-		return trabalhador;
+	public List<Trabalhador> getTrabalhadores() {
+		return trabalhadores;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -83,8 +85,12 @@ public class Cargo implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Cargo other = (Cargo) obj;
-		return id == other.id;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-	
-	
+
 }

@@ -60,7 +60,7 @@ public class Trabalhador implements Serializable{
 		this.name = name;
 	}
 
-	public String isCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 

@@ -31,10 +31,14 @@ public class SetorService {
 
 	@Transactional
 	public SetorDTO insert(SetorDTO dto) {
+		try {
 		Setor entity = new Setor();
 		entity.setName(dto.getName());
 		entity = repository.save(entity);
 		return new SetorDTO(entity);
+		}catch(DataIntegrityViolationException e) {
+			throw new DataBaseException("Integrity violation");
+		}
 	}
 
 	@Transactional
@@ -48,6 +52,10 @@ public class SetorService {
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
 		}
+		catch(DataIntegrityViolationException e) {
+			throw new DataBaseException("Integrity violation");
+		}
+		
 	}
 
 	public void delete(Long id) {
